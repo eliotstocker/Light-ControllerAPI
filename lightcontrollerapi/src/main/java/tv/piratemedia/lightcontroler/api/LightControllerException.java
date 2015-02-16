@@ -5,8 +5,8 @@ package tv.piratemedia.lightcontroler.api;
  */
 public class LightControllerException extends Exception {
     public static final int TYPE_APPLICATION_MISSING = 404;
-    public static final int TYPE_APPLICATION_OLD= 417;
-    public static final int TYPE_ZONE_TYPE_INCORRECT= 412;
+    public static final int TYPE_APPLICATION_OLD = 417;
+    public static final int TYPE_ZONE_TYPE_INCORRECT = 412;
 
     private int _type = 0;
 

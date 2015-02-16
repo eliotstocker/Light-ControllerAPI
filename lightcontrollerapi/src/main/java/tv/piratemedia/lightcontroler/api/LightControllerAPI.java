@@ -35,11 +35,11 @@ public class LightControllerAPI {
         _pkgName = _ctx.getPackageName();
     }
 
-    public void getApplicationFromPlayStore() {
+    public static void getApplicationFromPlayStore(Context ctx) {
         try {
-            _ctx.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + LightControllerPackage)));
+            ctx.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + LightControllerPackage)));
         } catch (android.content.ActivityNotFoundException anfe) {
-            _ctx.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + LightControllerPackage)));
+            ctx.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + LightControllerPackage)));
         }
     }
 

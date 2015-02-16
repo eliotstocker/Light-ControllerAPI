@@ -104,11 +104,13 @@ public class TestActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK) {
-            Zone = (LightZone)data.getSerializableExtra("LightZone");
-            selected.setText(Character.toUpperCase(Zone.Type.charAt(0)) + Zone.Type.substring(1) + ": " + Zone.Name);
-        } else if(resultCode == RESULT_CANCELED) {
+        if(requestCode == LightControllerAPI.PickRequestCode) {
+            if(resultCode == RESULT_OK) {
+                Zone = (LightZone)data.getSerializableExtra("LightZone");
+                selected.setText(Character.toUpperCase(Zone.Type.charAt(0)) + Zone.Type.substring(1) + ": " + Zone.Name);
+            } else if(resultCode == RESULT_CANCELED) {
 
+            }
         }
     }
 
