@@ -45,7 +45,7 @@ if(api.hasPermission()) {
 
 * Select Zone the user wishes to control
 there are multiple ways to do this
-1. using the Zone List Picker
+1: using the Zone List Picker
 ```java
 api.pickZone();
 
@@ -65,7 +65,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 }
 ```
 
-2. using LightZone List API
+2: using LightZone List API
 ```java
 LightZone[] zoneList = api.listZones();
 
