@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chiralcode.colorpicker.ColorPickerDialog;
@@ -15,6 +16,7 @@ import com.chiralcode.colorpicker.ColorPickerDialog;
 import tv.piratemedia.lightcontroler.api.LightControllerAPI;
 import tv.piratemedia.lightcontroler.api.LightControllerException;
 import tv.piratemedia.lightcontroler.api.LightZone;
+import tv.piratemedia.lightcontroler.api.OnPermissionChanged;
 
 
 public class TestActivity extends ActionBarActivity {
@@ -33,10 +35,26 @@ public class TestActivity extends ActionBarActivity {
             return;
         }
 
+        final LinearLayout perms = (LinearLayout) findViewById(R.id.perm_request);
+        
         if(api.hasPermission()) {
-            Log.d("Permission", "The Application is given Permission");
+            perms.setVisibility(View.GONE);
         } else {
-            Log.d("Permission", "The Application is denied Permission");
+            Button permBtn = (Button) findViewById(R.id.perm_button);
+            api.setOnPermissionChanged(new OnPermissionChanged() {
+                @Override
+                public void onChange() {
+                    if(api.hasPermission()) {
+                        perms.setVisibility(View.GONE);
+                    }
+                }
+            });
+            permBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    api.RequiestPermission();
+                }
+            });
         }
 
         Button zone = (Button) findViewById(R.id.zone);
@@ -100,6 +118,10 @@ public class TestActivity extends ActionBarActivity {
                 }
             }
         });
+    }
+    
+    private void checkPermission() {
+        
     }
 
     @Override

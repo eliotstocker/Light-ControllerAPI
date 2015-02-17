@@ -76,4 +76,27 @@
             android:id="@+id/white" />
     </LinearLayout>
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#FFFFFF"
+        android:gravity="center"
+        android:focusableInTouchMode="false"
+        android:id="@+id/perm_request">
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="This App Requires Permission to Access the Light Controller API"
+            android:id="@+id/textView"
+            android:gravity="center" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Request Permission"
+            android:id="@+id/perm_button" />
+    </LinearLayout>
+
 </RelativeLayout>
