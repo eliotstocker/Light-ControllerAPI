@@ -6,8 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 
 public class LightControllerAPI {
     public final static String LightControllerPackage = "tv.piratemedia.lightcontroler";
@@ -16,6 +20,9 @@ public class LightControllerAPI {
     private Context _ctx;
     private String _pkgName;
     private Boolean LightControllerMissing = false;
+    private ContentObserver contentObserver;
+    private Handler handler;
+    private OnPermissionChanged onPermissionChanged = null;
     private int installedVersion = -1;
 
     public LightControllerAPI(Context ctx) throws LightControllerException {
@@ -33,6 +40,34 @@ public class LightControllerAPI {
 
         //get application package name
         _pkgName = _ctx.getPackageName();
+
+        setupContentObserver();
+        _ctx.getContentResolver().registerContentObserver(Uri.parse("content://"+LightControllerPackage+".api/permission"), true, contentObserver);
+    }
+    
+    private void setupContentObserver() {
+        handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                Log.d("permissions", "Perms Changed");
+                if(onPermissionChanged != null) {
+                    onPermissionChanged.onChange();
+                }
+            }
+        };
+        contentObserver = new ContentObserver(handler) {
+            @Override
+            public void onChange(boolean selfChange) {
+                this.onChange(selfChange, null);
+            }
+            @Override
+            public void onChange(boolean selfChange, Uri uri) {
+                Message msg = new Message();
+                msg.what = 1;
+                handler.sendMessage(msg);
+            }
+        };
     }
 
     public static void getApplicationFromPlayStore(Context ctx) {
@@ -152,6 +187,10 @@ public class LightControllerAPI {
         intent.setAction(LightControllerPackage+".requestAPIPermission");
         intent.putExtra("app_id", _pkgName);
         _ctx.sendBroadcast(intent);
+    }
+    
+    public void setOnPermissionChanged(OnPermissionChanged opc) {
+        onPermissionChanged = opc;
     }
 
     public void lightsOn(LightZone lz) {
