@@ -7,10 +7,12 @@ Android Client Library for [Light Controller Android App](https://github.com/eli
 
 Usage
 -----
-Light Controller is available on [BinTray](https://bintray.com/eliotstocker/maven/LightControllerAPI)
+Light Controller is available on [BinTray](https://bintray.com/eliotstocker/maven/LightControllerAPI) in the JCenter Repo
 The API can be added into your Gradle dependencies with the following line
 ```gradle
-Currently Submitting to JCenter check back soon
+dependencies {
+    compile 'Light-ControllerAPI:lightcontrollerapi:0.9.+'
+}
 ```
 
 API Usage is as follows:
