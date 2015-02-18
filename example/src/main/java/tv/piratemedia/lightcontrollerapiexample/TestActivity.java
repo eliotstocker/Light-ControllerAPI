@@ -1,5 +1,6 @@
 package tv.piratemedia.lightcontrollerapiexample;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -31,7 +32,21 @@ public class TestActivity extends ActionBarActivity {
         try {
             api = new LightControllerAPI(this);
         } catch(LightControllerException e) {
-            e.printStackTrace();
+            final Context _this = this;
+            LinearLayout view = (LinearLayout)findViewById(R.id.install_app);
+            Button install = (Button)findViewById(R.id.install_button);
+            view.setVisibility(View.VISIBLE);
+            if(e.getCode() == LightControllerException.TYPE_APPLICATION_OLD) {
+                TextView desc = (TextView)findViewById(R.id.install_desc);
+                desc.setText("The Installed Version of Light Controller is too old to use the required APIs for the App, Click bellow to update from the Play Store");
+                install.setText("Update App");
+            }
+            install.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LightControllerAPI.getApplicationFromPlayStore(_this);
+                }
+            });
             return;
         }
 

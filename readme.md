@@ -38,13 +38,20 @@ try {
 * Check if your application is allowed permission to control lights
 ```java
 if(api.hasPermission()) {
-    //your application has permission
+            //application has permission
 } else {
-    //your application does not yet have permission
-    api.RequiestPermission();
+    //app doesnt have permission, set event for if any permissions change on the api
+    api.setOnPermissionChanged(new OnPermissionChanged() {
+        @Override
+        public void onChange() {
+            //still need to check if your app has permission as this is called on any app permission change
+            if(api.hasPermission()) {
+                perms.setVisibility(View.GONE);
+            }
+        }
+    });
 }
 ```
-(I will soon add a content observer that you can use to known once the application has permission)
 
 * Select Zone the user wishes to control
 there are multiple ways to do this
@@ -53,7 +60,7 @@ there are multiple ways to do this
 ```java
 api.pickZone();
 
-//register Activity Result Listener withing your activity
+//register Activity Result Listener withing your activity, required to get the return from the pick activity
 @Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     if(requestCode == LightControllerAPI.PickRequestCode) {
@@ -89,7 +96,8 @@ api.lightsOn(zone1);
 
 API Documentation
 -----------------
-Full documentation coming at Version 1
+All Control Functions can be called using a LightZone Object or simply a Zone and Type I.E. Zone 1, Color (api.lightsOn(1, "color");)
+Full documentation coming at Version 1 for now you can have a look at the example or the API Source for a list of available functions
 
 Example
 -------
@@ -97,4 +105,4 @@ a simple example of the API can be found here: [API Example](https://github.com/
 
 License
 -------
-Light Controller API is free for use as to allow any application to interface with Light Controller
+Light Controller API is free for use as to allow any application to interface with Light Controller using the Apache 2.0 License
