@@ -17,6 +17,11 @@ dependencies {
 
 API Usage is as follows:
 
+* App Light Controller Permission to your manifest
+```xml
+<uses-permission android:name="tv.piratemedia.lightcontroler.api"/>
+```
+
 * Initialize API
 ```java
 LightControllerAPI api
@@ -52,6 +57,8 @@ if(api.hasPermission()) {
     });
 }
 ```
+It is not explicityly required that an app must request permission as sending a command (such as light on) will result in a permission request being sent, however it is best use that in any app with a main activity that permissions are requested and checked on create or resume so as to avoid user confusion.
+The Commandr usage for example does not explicitly request permission, thus on first use a permission requested be be sent.
 
 * Select Zone the user wishes to control
 there are multiple ways to do this

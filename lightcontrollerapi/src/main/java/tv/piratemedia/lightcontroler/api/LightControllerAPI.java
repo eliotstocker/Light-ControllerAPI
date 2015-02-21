@@ -91,7 +91,7 @@ public class LightControllerAPI {
 
     public LightZone[] listZones() {
         Cursor c = _ctx.getContentResolver().query(
-                Uri.parse(LightControllerPackage+".api/zones"),
+                Uri.parse("content://"+LightControllerPackage+".api/zones"),
                 null,
                 null,
                 null,
@@ -131,7 +131,7 @@ public class LightControllerAPI {
             ID += 4;
         }
         Cursor c = _ctx.getContentResolver().query(
-                Uri.parse(LightControllerPackage+".api/zones/"+ID),
+                Uri.parse("content://"+LightControllerPackage+".api/zones/"+ID),
                 null,
                 null,
                 null,
