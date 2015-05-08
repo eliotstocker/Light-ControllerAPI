@@ -17,6 +17,9 @@ public class LightControllerAPI {
     public final static String LightControllerPackage = "tv.piratemedia.lightcontroler";
     public final static int PickRequestCode = 46598;
 
+    public final static String LIGHT_TYPE_COLOR = "color";
+    public final static String LIGHT_TYPE_WHITE = "white";
+
     private Context _ctx;
     private String _pkgName;
     private Boolean LightControllerMissing = false;
@@ -91,7 +94,7 @@ public class LightControllerAPI {
 
     public LightZone[] listZones() {
         Cursor c = _ctx.getContentResolver().query(
-                Uri.parse("content://"+LightControllerPackage+".api/zones"),
+                Uri.parse("content://" + LightControllerPackage + ".api/zones"),
                 null,
                 null,
                 null,
@@ -131,7 +134,7 @@ public class LightControllerAPI {
             ID += 4;
         }
         Cursor c = _ctx.getContentResolver().query(
-                Uri.parse("content://"+LightControllerPackage+".api/zones/"+ID),
+                Uri.parse("content://" + LightControllerPackage + ".api/zones/" + ID),
                 null,
                 null,
                 null,
@@ -250,6 +253,50 @@ public class LightControllerAPI {
         intent.putExtra("app_id", _pkgName);
         intent.putExtra("type", type);
         intent.putExtra("zone", zone);
+        _ctx.sendBroadcast(intent);
+    }
+
+    public void startFadeIn(LightZone lz, int duration) throws LightControllerException {
+        startFadeIn(lz.ID, lz.Type, duration);
+    }
+
+    public void startFadeIn(int zone, String type, int duration) throws LightControllerException {
+        if(duration > 900 || duration < 30) {
+            throw new LightControllerException(LightControllerException.TYPE_VALUE_OUT_OF_RANGE);
+        }
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+        intent.setAction(LightControllerPackage + ".LightFadeIn");
+        intent.putExtra("app_id", _pkgName);
+        intent.putExtra("type", type);
+        intent.putExtra("zone", zone);
+        intent.putExtra("duration", duration);
+        _ctx.sendBroadcast(intent);
+    }
+
+    public void startFadeOut(LightZone lz, int duration) throws LightControllerException {
+        startFadeOut(lz.ID, lz.Type, duration);
+    }
+
+    public void startFadeOut(int zone, String type, int duration) throws LightControllerException {
+        if(duration > 900 || duration < 30) {
+            throw new LightControllerException(LightControllerException.TYPE_VALUE_OUT_OF_RANGE);
+        }
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+        intent.setAction(LightControllerPackage + ".LightFadeOut");
+        intent.putExtra("app_id", _pkgName);
+        intent.putExtra("type", type);
+        intent.putExtra("zone", zone);
+        intent.putExtra("duration", duration);
+        _ctx.sendBroadcast(intent);
+    }
+
+    public void cancelFade() {
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+        intent.setAction(LightControllerPackage + ".LightFadeCancel");
+        intent.putExtra("app_id", _pkgName);
         _ctx.sendBroadcast(intent);
     }
 
