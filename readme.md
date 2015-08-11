@@ -132,12 +132,13 @@ Methods:
 | Void           | pickZone()                                       | Brings forward an interactive dialog withing which users may select a zone to control. The Light Zone Object can be caught from the activity response in the calling activity using onActivityResult, by getting the LightZone Extra as Follows: (LightZone)data.getSerializableExtra("LightZone") |
 
 Properties:
- Type         | Name                   | Description
- :----------- | :--------------------- | :-------------
- int          | PickRequestCode        | this is the request code of the pickZone() dialog so as you may catch this particular Activity response
- String       | LightControllerPackage | the Light Controller Package Name should you require it.
- String       | LIGHT_TYPE_COLOR       | Colored Lights LightZone type value, to be used with functions such as LightsOn etc.
- String       | LIGHT_TYPE_WHITE       | White Lights LightZone type value, to be used with functions such as LightsOn etc.
+
+| Type         | Name                   | Description    |
+| :----------- | :--------------------- | :------------- |
+| int          | PickRequestCode        | this is the request code of the pickZone() dialog so as you may catch this particular Activity response |
+| String       | LightControllerPackage | the Light Controller Package Name should you require it. |
+| String       | LIGHT_TYPE_COLOR       | Colored Lights LightZone type value, to be used with functions such as LightsOn etc. |
+| String       | LIGHT_TYPE_WHITE       | White Lights LightZone type value, to be used with functions such as LightsOn etc. |
 
 Exception:
 Some Functions will throw a LightControllerException which you can catch and inspect the Code to know why the Exception was thrown, for example if the installed version of Light Controller is too old, when constructing the LightControllerAPI Class the Code will be Equal to LightControllerException.TYPE_APPLICATION_OLD the known Codes are as follows:
