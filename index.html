@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Light-controllerapi by eliotstocker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Light-controllerapi</h1>
+      <h2 class="project-tagline">Android Client Library For Light Controller API (Android App)</h2>
+      <a href="https://github.com/eliotstocker/Light-ControllerAPI" class="btn">View on GitHub</a>
+      <a href="https://github.com/eliotstocker/Light-ControllerAPI/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/eliotstocker/Light-ControllerAPI/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="light-controller-api" class="anchor" href="#light-controller-api" aria-hidden="true"><span class="octicon octicon-link"></span></a>Light Controller API</h1>
+
+<h2>
+<a id="description" class="anchor" href="#description" aria-hidden="true"><span class="octicon octicon-link"></span></a>Description</h2>
+
+<p>Android Client Library for <a href="https://github.com/eliotstocker/Light-Controller">Light Controller Android App</a> allowing your application to control the lighting in a users home with ease and no need to write any socket connections etc.</p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Light Controller is available on <a href="https://bintray.com/eliotstocker/maven/LightControllerAPI">BinTray</a> in the JCenter Repo
+The API can be added into your Gradle dependencies with the following line</p>
+
+<div class="highlight highlight-gradle"><pre><span class="pl-en">dependencies</span> {
+    compile <span class="pl-s"><span class="pl-pds">'</span>Light-ControllerAPI:lightcontrollerapi:1.0.+<span class="pl-pds">'</span></span>
+}</pre></div>
+
+<p>API Usage is as follows:</p>
+
+<ul>
+<li>Add Light Controller Permission to your manifest</li>
+</ul>
+
+<div class="highlight highlight-xml"><pre>&lt;<span class="pl-ent">uses-permission</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.api<span class="pl-pds">"</span></span>/&gt;</pre></div>
+
+<ul>
+<li>Initialize API</li>
+</ul>
+
+<div class="highlight highlight-java"><pre><span class="pl-smi">LightControllerAPI</span> api
+<span class="pl-k">try</span> {
+    api <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">LightControllerAPI</span>(<span class="pl-v">this</span>);
+} <span class="pl-k">catch</span>(<span class="pl-smi">LightControllerException</span> e) {
+    <span class="pl-k">if</span>(e<span class="pl-k">.</span>getCode() <span class="pl-k">==</span> <span class="pl-c1">TYPE_APPLICATION_MISSING</span>) {
+        <span class="pl-c">//Light Controller application is not installed</span>
+        <span class="pl-c">//open store to download Light Controller</span>
+        <span class="pl-smi">LightControllerAPI</span><span class="pl-k">.</span>getApplicationFromPlayStore(<span class="pl-v">this</span>);
+    } elseif(e<span class="pl-k">.</span>getCode() <span class="pl-k">==</span> <span class="pl-c1">TYPE_APPLICATION_OLD</span>) {
+        <span class="pl-c">//Light Controller application too old</span>
+        <span class="pl-c">//open store to download Latest Light Controller</span>
+        <span class="pl-smi">LightControllerAPI</span><span class="pl-k">.</span>getApplicationFromPlayStore(<span class="pl-v">this</span>);
+    }
+}</pre></div>
+
+<ul>
+<li>Check if your application is allowed permission to control lights</li>
+</ul>
+
+<div class="highlight highlight-java"><pre><span class="pl-k">if</span>(api<span class="pl-k">.</span>hasPermission()) {
+            <span class="pl-c">//application has permission</span>
+} <span class="pl-k">else</span> {
+    <span class="pl-c">//app doesnt have permission, set event for if any permissions change on the api</span>
+    api<span class="pl-k">.</span>setOnPermissionChanged(<span class="pl-k">new</span> <span class="pl-smi">OnPermissionChanged</span>() {
+        <span class="pl-k">@Override</span>
+        <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onChange</span>() {
+            <span class="pl-c">//still need to check if your app has permission as this is called on any app permission change</span>
+            <span class="pl-k">if</span>(api<span class="pl-k">.</span>hasPermission()) {
+                perms<span class="pl-k">.</span>setVisibility(<span class="pl-smi">View</span><span class="pl-c1"><span class="pl-k">.</span>GONE</span>);
+            }
+        }
+    });
+}</pre></div>
+
+<p>It is not explicityly required that an app must request permission as sending a command (such as light on) will result in a permission request being sent, however it is best use that in any app with a main activity that permissions are requested and checked on create or resume so as to avoid user confusion.
+The Commandr usage for example does not explicitly request permission, thus on first use a permission requested be be sent.</p>
+
+<ul>
+<li>Select Zone the user wishes to control
+there are multiple ways to do this</li>
+</ul>
+
+<p>1: using the Zone List Picker</p>
+
+<div class="highlight highlight-java"><pre>api<span class="pl-k">.</span>pickZone();
+
+<span class="pl-c">//register Activity Result Listener withing your activity, required to get the return from the pick activity</span>
+@<span class="pl-smi">Override</span>
+<span class="pl-k">protected</span> <span class="pl-k">void</span> onActivityResult(<span class="pl-k">int</span> requestCode, <span class="pl-k">int</span> resultCode, <span class="pl-smi">Intent</span> data) {
+    <span class="pl-k">if</span>(requestCode <span class="pl-k">==</span> <span class="pl-smi">LightControllerAPI</span><span class="pl-k">.</span><span class="pl-smi">PickRequestCode</span>) {
+        <span class="pl-k">if</span>(resultCode <span class="pl-k">==</span> <span class="pl-c1">RESULT_OK</span>) {
+            <span class="pl-c">//save zone for later use</span>
+            <span class="pl-smi">Zone</span> <span class="pl-k">=</span> (<span class="pl-smi">LightZone</span>)data<span class="pl-k">.</span>getSerializableExtra(<span class="pl-s"><span class="pl-pds">"</span>LightZone<span class="pl-pds">"</span></span>);
+            <span class="pl-c">//show user selected zone</span>
+            selected<span class="pl-k">.</span>setText(<span class="pl-smi">Character</span><span class="pl-k">.</span>toUpperCase(<span class="pl-smi">Zone</span><span class="pl-k">.</span><span class="pl-smi">Type</span><span class="pl-k">.</span>charAt(<span class="pl-c1">0</span>)) <span class="pl-k">+</span> <span class="pl-smi">Zone</span><span class="pl-k">.</span><span class="pl-smi">Type</span><span class="pl-k">.</span>substring(<span class="pl-c1">1</span>) <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">"</span>: <span class="pl-pds">"</span></span> <span class="pl-k">+</span> <span class="pl-smi">Zone</span><span class="pl-k">.</span><span class="pl-smi">Name</span>);
+        } <span class="pl-k">else</span> <span class="pl-k">if</span>(resultCode <span class="pl-k">==</span> <span class="pl-c1">RESULT_CANCELED</span>) {
+            <span class="pl-c">//picker was closed without picking</span>
+        }
+    }
+}</pre></div>
+
+<p>2: using LightZone List API</p>
+
+<div class="highlight highlight-java"><pre><span class="pl-k">LightZone</span>[] zoneList <span class="pl-k">=</span> api<span class="pl-k">.</span>listZones();
+
+<span class="pl-k">for</span>(<span class="pl-k">int</span> i <span class="pl-k">=</span> <span class="pl-c1">0</span>; i <span class="pl-k">&lt;</span> zoneList<span class="pl-k">.</span>length; i<span class="pl-k">++</span>) {
+    <span class="pl-smi">LightZone</span> zone <span class="pl-k">=</span> zoneList[i];
+    <span class="pl-smi">Log</span><span class="pl-k">.</span>d(<span class="pl-s"><span class="pl-pds">"</span>Zone<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Name: <span class="pl-pds">"</span></span><span class="pl-k">+</span><span class="pl-smi">zone<span class="pl-k">.</span>Name</span><span class="pl-k">+</span><span class="pl-s"><span class="pl-pds">"</span> Type: <span class="pl-pds">"</span></span><span class="pl-k">+</span><span class="pl-smi">zone<span class="pl-k">.</span>Type</span>);
+
+    <span class="pl-c">//do what ever you like with the zones here (add to listView perhapse)</span>
+}</pre></div>
+
+<ul>
+<li>Now you have the zones you can start to control the zones with like the following</li>
+</ul>
+
+<div class="highlight highlight-java"><pre><span class="pl-c">//zone1 is a LightZone returned from either Zone List</span>
+api<span class="pl-k">.</span>lightsOn(zone1);</pre></div>
+
+<h2>
+<a id="api-documentation" class="anchor" href="#api-documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>API Documentation</h2>
+
+<p>Methods:</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">Return Type</th>
+<th align="left">Invocation</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Void</td>
+<td align="left">LightControllerAPI(Context context)</td>
+<td align="left">Class constructor you must pass it your</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">getApplicationFromPlayStore(Context context)</td>
+<td align="left">(Static) Will bring the user to the play store where they can or update download light controller if needed.</td>
+</tr>
+<tr>
+<td align="left">Boolean</td>
+<td align="left">isLightControllerInstalled()</td>
+<td align="left">Return (Boolean) weather Light Controller Application is installed, should not need to be used as is called from the class constructor.</td>
+</tr>
+<tr>
+<td align="left">LightZone[]</td>
+<td align="left">listZones()</td>
+<td align="left">Returns an array of all available Light Zones as LightZone Objects</td>
+</tr>
+<tr>
+<td align="left">LightZone</td>
+<td align="left">getZone(int Zone, String Type)</td>
+<td align="left">Will return the Light Zone Object for the specified zone, accepted values for Type are LightControllerAPI.LIGHT_TYPE_COLOR and LightControllerAPI.LIGHT_TYPE_WHITE</td>
+</tr>
+<tr>
+<td align="left">Boolean</td>
+<td align="left">hasPermission()</td>
+<td align="left">Returns (boolean) weather your application has permission to use the Light Controller API</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">RequiestPermission()</td>
+<td align="left">Request Permission to use the Light Controller API, this will create in interactive prompt for the user to allow to deny your app, use setOnPermissionChanged to listen for changes to your Permission Status</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">setOnPermissionChanged(OnPermissionChanged oPC)</td>
+<td align="left">Set a class that implements OnPermissionChanged where the onChange() Function is called when the application is granted/rescinded permission to access the Light Controller API</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">lightsOn(LightZone lz)</td>
+<td align="left">Turn lights on for LightZone returned from listZones() or getZone(), you should not construct a LightZone Object for this.</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">lightsOn(int Zone, String Type)</td>
+<td align="left">Turn on lights for the numbered zone of the type specified, accepted values for Type are LightControllerAPI.LIGHT_TYPE_COLOR and LightControllerAPI.LIGHT_TYPE_WHITE.</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">lightsOff(LightZone lz)</td>
+<td align="left">Turn lights off for a LightZone Object returned from listZones() or getZone(), you should not construct a LightZone Object for this.</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">lightsOff(int Zone, String Type)</td>
+<td align="left">Turn off lights for the numbered zone of the type specified, accepted values for Type are LightControllerAPI.LIGHT_TYPE_COLOR and LightControllerAPI.LIGHT_TYPE_WHITE.</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">setColor(LightZone lz, int Color)</td>
+<td align="left">Set Lights to specified color (For Colored Light Only Dummy!) for LightZone Object returned from listZones() or getZone(), Color Should be a color integer return from the Color class.</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">setColor(int Zone, String Type, int Color)</td>
+<td align="left">Set Lights to specified color (For Colored Light Only Dummy!) for the numbered zone of the type specified, Color Should be a color integer return from the Color class.</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">setDefault(LightZone lz)</td>
+<td align="left">Set Colored Zone Lights to White, and White Zone Lights to Full Brightness for a LightZone Object returned from listZones() or getZone().</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">setDefault(int Zone, String Type)</td>
+<td align="left">Set Colored Zone Lights to White, and White Zone Lights to Full Brightness for for the numbered zone of the type specified.</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">startFadeIn(LightZone lz, int duration)</td>
+<td align="left">Starts the lights lowly getting brighter from the lowest setting over the duration (in seconds) specified for a LightZone Object returned from listZones() or getZone(), Vaules from 30 to 900 are allowed, throws a LightControllerException if the values are outside to the acceptable range.</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">startFadeIn(int Zone, String Type, int duration)</td>
+<td align="left">Starts the lights lowly getting brighter from the lowest setting over the duration (in seconds) specified for a the numbered zone of the type specified, Vaules from 30 to 900 are allowed, throws a LightControllerException if the values are outside to the acceptable range.</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">startFadeOut(LightZone lz, int duration)</td>
+<td align="left">Starts the lights lowly getting brighter from the highest setting over the duration (in seconds) specified for a LightZone Object returned from listZones() or getZone(), Vaules from 30 to 900 are allowed, throws a LightControllerException if the values are outside to the acceptable range.</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">startFadeOut(int Zone, String Type, int duration)</td>
+<td align="left">Starts the lights lowly getting darker from the highest setting over the duration (in seconds) specified for a the numbered zone of the type specified, Vaules from 30 to 900 are allowed, throws a LightControllerException if the values are outside to the acceptable range.</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">cancelFade()</td>
+<td align="left">Cancels and fade currently in transition on any zone</td>
+</tr>
+<tr>
+<td align="left">String</td>
+<td align="left">getZoneName(int Zone, String Type)</td>
+<td align="left">Returns the Name saved in Light Controller for the number zone of the specified type, accepted values for Type are LightControllerAPI.LIGHT_TYPE_COLOR and LightControllerAPI.LIGHT_TYPE_WHITE.</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">pickZone()</td>
+<td align="left">Brings forward an interactive dialog withing which users may select a zone to control. The Light Zone Object can be caught from the activity response in the calling activity using onActivityResult, by getting the LightZone Extra as Follows: (LightZone)data.getSerializableExtra("LightZone")</td>
+</tr>
+</tbody>
+</table>
+
+<p>Properties:</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">Type</th>
+<th align="left">Name</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">int</td>
+<td align="left">PickRequestCode</td>
+<td align="left">this is the request code of the pickZone() dialog so as you may catch this particular Activity response</td>
+</tr>
+<tr>
+<td align="left">String</td>
+<td align="left">LightControllerPackage</td>
+<td align="left">the Light Controller Package Name should you require it.</td>
+</tr>
+<tr>
+<td align="left">String</td>
+<td align="left">LIGHT_TYPE_COLOR</td>
+<td align="left">Colored Lights LightZone type value, to be used with functions such as LightsOn etc.</td>
+</tr>
+<tr>
+<td align="left">String</td>
+<td align="left">LIGHT_TYPE_WHITE</td>
+<td align="left">White Lights LightZone type value, to be used with functions such as LightsOn etc.</td>
+</tr>
+</tbody>
+</table>
+
+<p>Exception:
+Some Functions will throw a LightControllerException which you can catch and inspect the Code to know why the Exception was thrown, for example if the installed version of Light Controller is too old, when constructing the LightControllerAPI Class the Code will be Equal to LightControllerException.TYPE_APPLICATION_OLD the known Codes are as follows:</p>
+
+<ul>
+<li>TYPE_APPLICATION_MISSING: The Light Controller application is not installed, call the getApplicationFromPlayStore method to show the user the play store page.</li>
+<li>TYPE_APPLICATION_OLD: The Light Controller application is installed, but too old to be used with this version of the API client library, call the getApplicationFromPlayStore method to show the user the play store page.</li>
+<li>TYPE_ZONE_TYPE_INCORRECT: The Type String specified to a method such as lightsOn width not and accepted value</li>
+<li>TYPE_VALUE_OUT_OF_RANGE: The Value specified for a fade Method such as startFadeOut was outside of the accepted range</li>
+</ul>
+
+<h2>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example</h2>
+
+<p>a simple example of the API can be found here: <a href="https://github.com/eliotstocker/Light-ControllerAPI/tree/master/example">API Example</a></p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>Light Controller API is free for use or modify as to allow any application to interface with Light Controller using the Apache 2.0 License</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/eliotstocker/Light-ControllerAPI">Light-controllerapi</a> is maintained by <a href="https://github.com/eliotstocker">eliotstocker</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
