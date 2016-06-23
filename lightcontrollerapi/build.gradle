@@ -5,15 +5,15 @@ apply plugin: 'com.jfrog.bintray'
 version = "0.9.2"
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
     resourcePrefix "lightcontroller__"
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 21
+        targetSdkVersion 23
         versionCode 92
-        versionName "1.0.0"
+        versionName version
     }
     buildTypes {
         release {
