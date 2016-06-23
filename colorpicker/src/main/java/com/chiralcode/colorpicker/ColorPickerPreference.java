@@ -35,7 +35,6 @@ public class ColorPickerPreference extends DialogPreference {
         relativeLayout.addView(colorPickerView, layoutParams);
 
         return relativeLayout;
-
     }
 
     @Override
