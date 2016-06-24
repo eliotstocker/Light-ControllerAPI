@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="min_versioncode">170</integer>
+    <integer name="lightcontroller__min_versioncode">170</integer>
 </resources>

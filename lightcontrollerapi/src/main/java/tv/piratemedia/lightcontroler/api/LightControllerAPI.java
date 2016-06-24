@@ -37,7 +37,7 @@ public class LightControllerAPI {
             throw new LightControllerException(LightControllerException.TYPE_APPLICATION_MISSING);
         }
         //check Light Controller is high enough version for Using API Client
-        if(ctx.getResources().getInteger(R.integer.min_versioncode) > installedVersion) {
+        if(ctx.getResources().getInteger(R.integer.lightcontroller__min_versioncode) > installedVersion) {
             throw new LightControllerException(LightControllerException.TYPE_APPLICATION_OLD);
         }
 

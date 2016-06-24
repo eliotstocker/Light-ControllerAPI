@@ -1,3 +1,3 @@
 <resources>
-    <string name="app_name">Light Controller API</string>
+    <string name="lightcontroller__app_name">Light Controller API</string>
 </resources>
