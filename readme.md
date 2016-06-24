@@ -1,6 +1,10 @@
 Light Controller API
 ====================
 
+Build Status
+------------
+[![Build Status](https://travis-ci.org/eliotstocker/Light-ControllerAPI.svg?branch=master)](https://travis-ci.org/eliotstocker/Light-ControllerAPI)
+
 Description
 -----------
 Android Client Library for [Light Controller Android App](https://github.com/eliotstocker/Light-Controller) allowing your application to control the lighting in a users home with ease and no need to write any socket connections etc.
