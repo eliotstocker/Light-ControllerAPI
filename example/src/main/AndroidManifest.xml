@@ -17,6 +17,29 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".ExampleProvider" android:label="Example Provider">
+            <intent-filter>
+                <category android:name="com.piratemedia.lightcontroler.provider"/>
+                <action android:name="tv.piratemedia.lightcontroler.provider.Select"/>
+                <action android:name="tv.piratemedia.lightcontroler.provider.LightOn"/>
+                <action android:name="tv.piratemedia.lightcontroler.provider.LightOff"/>
+                <action android:name="tv.piratemedia.lightcontroler.provider.GlobalOn"/>
+                <action android:name="tv.piratemedia.lightcontroler.provider.GlobalOff"/>
+                <action android:name="tv.piratemedia.lightcontroler.provider.Brightness"/>
+                <action android:name="tv.piratemedia.lightcontroler.provider.IncreaseBrightness"/>
+                <action android:name="tv.piratemedia.lightcontroler.provider.DecreaseBrightness"/>
+                <action android:name="tv.piratemedia.lightcontroler.provider.LightColor"/>
+                <action android:name="tv.piratemedia.lightcontroler.provider.Temperature"/>
+                <action android:name="tv.piratemedia.lightcontroler.provider.IncreaseTemperature"/>
+                <action android:name="tv.piratemedia.lightcontroler.provider.DecreaseTemperature"/>
+                <action android:name="tv.piratemedia.lightcontroler.provider.LightNight"/>
+                <action android:name="tv.piratemedia.lightcontroler.provider.LightFull"/>
+                <action android:name="tv.piratemedia.lightcontroler.provider.LightWhite"/>
+            </intent-filter>
+            <meta-data
+                    android:name="com.piratemedia.lightcontroler.provider"
+                    android:resource="@xml/provider_info" />
+        </receiver>
     </application>
 
 </manifest>

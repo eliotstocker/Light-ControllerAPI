@@ -2,10 +2,9 @@ package tv.piratemedia.lightcontroler.api;
 
 import java.io.Serializable;
 
-/**
- * Created by eliotstocker on 15/02/15.
- */
 public class LightZone implements Serializable {
+    private static final long serialVersionUID = 7541824072245303498L;
+
     public int ID;
     public String Name;
     public String Type;
@@ -18,4 +17,9 @@ public class LightZone implements Serializable {
     public boolean isWhite() {
         return Type.equals("white");
     }
+
+    public boolean isSuperGlobal() {
+        return Type.equals("super");
+    }
+
 }

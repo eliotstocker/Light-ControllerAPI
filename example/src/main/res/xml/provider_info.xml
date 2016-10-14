@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<control-provider xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                  app:ColorBrightnessStatefull="false"
+                  app:WhiteBrightnessStatefull="true"
+                  app:ColorHasTemperature="false"
+                  app:ColorTemperatureStatefull="false"
+                  app:WhiteTemperatureStatefull="false">
+</control-provider>

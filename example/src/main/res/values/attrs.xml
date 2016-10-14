@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="ColorBrightnessStatefull" format="boolean"/>
+    <attr name="WhiteBrightnessStatefull" format="boolean"/>
+    <attr name="ColorHasTemperature" format="boolean"/>
+    <attr name="ColorTemperatureStatefull" format="boolean"/>
+    <attr name="WhiteTemperatureStatefull" format="boolean"/>
+
+</resources>
