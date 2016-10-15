@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/maxresdefault">
+
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="You have selected the API Example Provider"
+              android:textSize="18dp"
+              android:gravity="center"
+              android:layout_marginLeft="30dp"
+              android:layout_marginRight="30dp"
+              android:layout_marginTop="40dp"
+              android:textColor="#111111"
+                android:textStyle="bold"/>
+
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="all commands will be shown in a toast message no lights will actually be controlled, for more info goto: http://eliotstocker.github.io/Light-ControllerAPI/"
+              android:textSize="13dp"
+              android:gravity="center"
+              android:layout_marginLeft="30dp"
+              android:layout_marginRight="30dp"
+              android:layout_marginTop="20dp"
+              android:textColor="#111111"
+              android:linksClickable="true"/>
+
+    <Button android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OK"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:textSize="16dp"
+            android:id="@+id/ok_button"
+            android:background="@android:color/transparent"/>
+
+</LinearLayout>

@@ -50,6 +50,7 @@ public abstract class ControlProviderReciever extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.d("LCAPI-ControlProviderR", "recieved intent");
         String appId = intent.getStringExtra("app_id");
         String signature = intent.getStringExtra("app_sig");
 
