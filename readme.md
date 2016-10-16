@@ -23,8 +23,8 @@ dependencies {
 
 Parts
 -----
-1. [Light Controller Control API](#Control-API)
-2. [Light Controller Providers](#Provider-API)
+1. [Light Controller Control API](#control-api)
+2. [Light Controller Providers](#provider-api)
 
 #Control API
 
