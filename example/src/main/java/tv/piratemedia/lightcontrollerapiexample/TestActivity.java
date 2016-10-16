@@ -1,7 +1,10 @@
 package tv.piratemedia.lightcontrollerapiexample;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +15,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.chiralcode.colorpicker.ColorPickerDialog;
 
 import tv.piratemedia.lightcontroler.api.LightControllerAPI;
@@ -29,6 +34,25 @@ public class TestActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+
+        for(String cat : getIntent().getCategories()) {
+            if(cat.equals("tv.piratemedia.lightcontroller.plugin")) {
+                new MaterialDialog.Builder(this)
+                        .title("Hide Launcher Icon")
+                        .content("you can launch this application from inside of Light Controller, would you like to hide the launcher icon?")
+                        .positiveText("Yes")
+                        .negativeText("No")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                PackageManager p = getPackageManager();
+                                p.setComponentEnabledSetting(new ComponentName(getPackageName(), "tv.piratemedia.lightcontrollerapiexample.TestLauncher"), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+                            }
+                        })
+                        .show();
+            }
+        }
+
         try {
             api = new LightControllerAPI(this);
         } catch(LightControllerException e) {
