@@ -29,7 +29,7 @@ public abstract class ControlProviderReciever extends BroadcastReceiver {
     public static final String LIGHT_FULL_INTENT = "tv.piratemedia.lightcontroler.provider.LightFull";
     public static final String LIGHT_WHITE_INTENT = "tv.piratemedia.lightcontroler.provider.LightWhite";
 
-    private appPermission defPerm = new appPermission("com.piratemedia.lightcontroler", "");
+    private appPermission defPerm = new appPermission("com.piratemedia.lightcontroler", 1321982240);
 
     private ArrayList<appPermission> allowedApps = new ArrayList<>();
 
@@ -52,7 +52,7 @@ public abstract class ControlProviderReciever extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.d("LCAPI-ControlProviderR", "recieved intent");
         String appId = intent.getStringExtra("app_id");
-        String signature = intent.getStringExtra("app_sig");
+        int signature = intent.getIntExtra("app_sig", -1);
 
         boolean callerVerified = false;
         for(appPermission app : allowedApps) {

@@ -10,14 +10,14 @@ import android.content.pm.Signature;
  */
 public class appPermission {
     public String Package;
-    public String Sig;
+    public int Sig;
 
-    public appPermission(String Package, String Signature) {
+    public appPermission(String Package, int Signature) {
         this.Package = Package;
         this.Sig = Signature;
     }
 
-    public boolean verifyPermission(String pkg, String Sig, Context context) {
+    public boolean verifyPermission(String pkg, int Sig, Context context) {
         final PackageManager pm = context.getPackageManager();
         Signature[] signs;
         try {
@@ -27,7 +27,7 @@ public class appPermission {
         }
         if(signs != null) {
             for (Signature signature : signs) {
-                if(signature.toCharsString().equals(this.Sig) && signature.toCharsString().equals(Sig)) {
+                if(signature.hashCode() == this.Sig && signature.hashCode() == Sig) {
                     return true;
                 }
             }
