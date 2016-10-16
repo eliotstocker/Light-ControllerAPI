@@ -7,17 +7,29 @@ Build Status
 
 Description
 -----------
-Android Client Library for [Light Controller Android App](https://github.com/eliotstocker/Light-Controller) allowing your application to control the lighting in a users home with ease and no need to write any socket connections etc.
+Android Client Library for [Light Controller Android App](https://github.com/eliotstocker/Light-Controller)
+allowing your application to control the lighting in a users home with ease and no need to write any socket connections etc.
+along with helper classes to write providers for Light Controller to allow it to control over Light brands etc.
 
-Usage
------
-Light Controller is available on [BinTray](https://bintray.com/eliotstocker/maven/LightControllerAPI) in the JCenter Repo
+Installation
+------------
+Light Controller API is available on [BinTray](https://bintray.com/eliotstocker/maven/LightControllerAPI) in the JCenter Repo
 The API can be added into your Gradle dependencies with the following line
 ```gradle
 dependencies {
-    compile 'Light-ControllerAPI:lightcontrollerapi:1.0.+'
+    compile 'Light-ControllerAPI:lightcontrollerapi:1.1.+'
 }
 ```
+
+Parts
+-----
+1. [Light Controller Control API](#Control-API)
+2. [Light Controller Providers](#Provider-API)
+
+#Control API
+
+Usage
+-----
 
 API Usage is as follows:
 
@@ -155,6 +167,104 @@ Some Functions will throw a LightControllerException which you can catch and ins
 Example
 -------
 a simple example of the API can be found here: [API Example](https://github.com/eliotstocker/Light-ControllerAPI/tree/master/example)
+
+#Provider API
+
+Usage
+-----
+Inover to create a provider you must create a class extending ControlProviderReciever you will see that a number of functions are needed and they are quite self explainitory, further info on the functions required are listed bellow.
+
+you must also register the reciever and setup intent filter as follow:
+```xml
+<receiver
+    android:name="{class that extends ControlProviderReciever}"
+    android:label="{Title that shows up fro users when in select dialog}"
+    android:exported="true"
+    android:enabled="true">
+<intent-filter>
+    <category android:name="tv.piratemedia.lightcontroler.provider"/>
+    <action android:name="tv.piratemedia.lightcontroler.provider.Select"/>
+</intent-filter>
+<intent-filter>
+    <category android:name="tv.piratemedia.lightcontroler.provider"/>
+    <action android:name="tv.piratemedia.lightcontroler.provider.LightOn"/>
+</intent-filter>
+<intent-filter>
+    <category android:name="tv.piratemedia.lightcontroler.provider"/>
+    <action android:name="tv.piratemedia.lightcontroler.provider.LightOff"/>
+</intent-filter>
+<intent-filter>
+    <category android:name="tv.piratemedia.lightcontroler.provider"/>
+    <action android:name="tv.piratemedia.lightcontroler.provider.GlobalOn"/>
+</intent-filter>
+<intent-filter>
+    <category android:name="tv.piratemedia.lightcontroler.provider"/>
+    <action android:name="tv.piratemedia.lightcontroler.provider.GlobalOff"/>
+</intent-filter>
+<intent-filter>
+    <category android:name="tv.piratemedia.lightcontroler.provider"/>
+    <action android:name="tv.piratemedia.lightcontroler.provider.Brightness"/>
+</intent-filter>
+<intent-filter>
+    <category android:name="tv.piratemedia.lightcontroler.provider"/>
+    <action android:name="tv.piratemedia.lightcontroler.provider.IncreaseBrightness"/>
+</intent-filter>
+<intent-filter>
+    <category android:name="tv.piratemedia.lightcontroler.provider"/>
+    <action android:name="tv.piratemedia.lightcontroler.provider.DecreaseBrightness"/>
+</intent-filter>
+<intent-filter>
+    <category android:name="tv.piratemedia.lightcontroler.provider"/>
+    <action android:name="tv.piratemedia.lightcontroler.provider.LightColor"/>
+</intent-filter>
+<intent-filter>
+    <category android:name="tv.piratemedia.lightcontroler.provider"/>
+    <action android:name="tv.piratemedia.lightcontroler.provider.Temperature"/>
+</intent-filter>
+<intent-filter>
+    <category android:name="tv.piratemedia.lightcontroler.provider"/>
+    <action android:name="tv.piratemedia.lightcontroler.provider.IncreaseTemperature"/>
+</intent-filter>
+<intent-filter>
+    <category android:name="tv.piratemedia.lightcontroler.provider"/>
+    <action android:name="tv.piratemedia.lightcontroler.provider.DecreaseTemperature"/>
+</intent-filter>
+<intent-filter>
+    <category android:name="tv.piratemedia.lightcontroler.provider"/>
+    <action android:name="tv.piratemedia.lightcontroler.provider.LightNight"/>
+</intent-filter>
+<intent-filter>
+    <category android:name="tv.piratemedia.lightcontroler.provider"/>
+    <action android:name="tv.piratemedia.lightcontroler.provider.LightFull"/>
+</intent-filter>
+<intent-filter>
+    <category android:name="tv.piratemedia.lightcontroler.provider"/>
+    <action android:name="tv.piratemedia.lightcontroler.provider.LightWhite"/>
+</intent-filter>
+<meta-data
+        android:name="tv.piratemedia.lightcontroler.provider"
+        android:resource="@xml/provider_info" />
+</receiver>
+```
+
+at the end of the reciever example adove you can see that thre is a metadata field called "tv.piratemedia.lightcontroler.provider" this provides Light Controller with some information about how your reciever works
+
+an example of metadata XML:
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<control-provider xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                  app:ColorBrightnessStatefull="false"
+                  app:WhiteBrightnessStatefull="true"
+                  app:ColorHasTemperature="false"
+                  app:ColorTemperatureStatefull="false"
+                  app:WhiteTemperatureStatefull="false">
+</control-provider>
+```
+
+this must be present for LightController to be able to load your provider
+
+#MORE INFO COMING SOON
 
 License
 -------
