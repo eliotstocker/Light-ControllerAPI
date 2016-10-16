@@ -35,21 +35,23 @@ public class TestActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
-        for(String cat : getIntent().getCategories()) {
-            if(cat.equals("tv.piratemedia.lightcontroller.plugin")) {
-                new MaterialDialog.Builder(this)
-                        .title("Hide Launcher Icon")
-                        .content("you can launch this application from inside of Light Controller, would you like to hide the launcher icon?")
-                        .positiveText("Yes")
-                        .negativeText("No")
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                PackageManager p = getPackageManager();
-                                p.setComponentEnabledSetting(new ComponentName(getPackageName(), "tv.piratemedia.lightcontrollerapiexample.TestLauncher"), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-                            }
-                        })
-                        .show();
+        final PackageManager p = getPackageManager();
+        if(p.getComponentEnabledSetting(new ComponentName(getPackageName(), "tv.piratemedia.lightcontrollerapiexample.TestLauncher")) != PackageManager.COMPONENT_ENABLED_STATE_DISABLED) {
+            for (String cat : getIntent().getCategories()) {
+                if (cat.equals("tv.piratemedia.lightcontroller.plugin")) {
+                    new MaterialDialog.Builder(this)
+                            .title("Hide Launcher Icon")
+                            .content("you can launch this application from inside of Light Controller, would you like to hide the launcher icon?")
+                            .positiveText("Yes")
+                            .negativeText("No")
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    p.setComponentEnabledSetting(new ComponentName(getPackageName(), "tv.piratemedia.lightcontrollerapiexample.TestLauncher"), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+                                }
+                            })
+                            .show();
+                }
             }
         }
 
