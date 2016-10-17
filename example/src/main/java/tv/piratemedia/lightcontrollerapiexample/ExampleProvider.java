@@ -42,7 +42,7 @@ public class ExampleProvider extends ControlProviderReciever {
 
     @Override
     public void onGlobalOff(Context context) {
-        Toast.makeText(context, "All lights of all types on", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "All lights of all types off", Toast.LENGTH_SHORT).show();
     }
 
     @Override

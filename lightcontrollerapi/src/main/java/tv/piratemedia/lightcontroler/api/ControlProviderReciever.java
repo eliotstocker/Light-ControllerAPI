@@ -1,5 +1,6 @@
 package tv.piratemedia.lightcontroler.api;
 
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -51,12 +52,12 @@ public abstract class ControlProviderReciever extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d("LCAPI-ControlProviderR", "recieved intent");
-        String appId = intent.getStringExtra("app_id");
+        PendingIntent appVer = intent.getParcelableExtra("app_ver");
         int signature = intent.getIntExtra("app_sig", -1);
 
         boolean callerVerified = false;
         for(appPermission app : allowedApps) {
-            if(app.verifyPermission(appId, signature, context)) {
+            if(app.verifyPermission(appVer, signature, context)) {
                 callerVerified = true;
             }
         }
