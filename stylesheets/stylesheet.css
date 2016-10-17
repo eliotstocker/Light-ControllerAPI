@@ -428,7 +428,7 @@ th {
 
 /* LAYOUT STYLES */
 body {
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, serif;
   font-size: 15px;
   font-weight: 400;
   line-height: 1.5;
@@ -450,13 +450,13 @@ a:hover {
 header {
   padding-top: 40px;
   padding-bottom: 40px;
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, serif;
+  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
   background: #2e7bcf url(../images/header-bg.jpg) 0 0 repeat-x;
   border-bottom: solid 1px #275da1;
 }
 
 header h1 {
-  width: 600px;
+  width: 540px;
   margin-top: 0;
   margin-bottom: 0.2em;
   font-size: 72px;
@@ -598,9 +598,8 @@ th {
 
 td {
   font-weight: 300;
-  text-align: left;
+  text-align: center;
   border: 1px solid #ebebeb;
-  padding: 10px;
 }
 
 form {

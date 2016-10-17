@@ -4,7 +4,7 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
@@ -29,22 +29,53 @@
       <div class="inner clearfix">
         <section id="main-content">
           <h1>
-<a id="light-controller-api" class="anchor" href="#light-controller-api" aria-hidden="true"><span class="octicon octicon-link"></span></a>Light Controller API</h1>
+<a id="light-controller-api" class="anchor" href="#light-controller-api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Light Controller API</h1>
 
 <h2>
-<a id="description" class="anchor" href="#description" aria-hidden="true"><span class="octicon octicon-link"></span></a>Description</h2>
+<a id="build-status" class="anchor" href="#build-status" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Build Status</h2>
 
-<p>Android Client Library for <a href="https://github.com/eliotstocker/Light-Controller">Light Controller Android App</a> allowing your application to control the lighting in a users home with ease and no need to write any socket connections etc.</p>
+<p><a href="https://travis-ci.org/eliotstocker/Light-ControllerAPI"><img src="https://travis-ci.org/eliotstocker/Light-ControllerAPI.svg?branch=master" alt="Build Status"></a></p>
 
 <h2>
-<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+<a id="demo-application" class="anchor" href="#demo-application" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Demo application</h2>
 
-<p>Light Controller is available on <a href="https://bintray.com/eliotstocker/maven/LightControllerAPI">BinTray</a> in the JCenter Repo
-The API can be added into your Gradle dependencies with the following line</p>
+<p>the demo application can be downloaded from google play here: <a href="https://play.google.com/store/apps/details?id=tv.piratemedia.lightcontrollerapitest&amp;hl=en_GB">LC API Example</a></p>
 
-<div class="highlight highlight-gradle"><pre><span class="pl-en">dependencies</span> {
-    compile <span class="pl-s"><span class="pl-pds">'</span>Light-ControllerAPI:lightcontrollerapi:1.0.+<span class="pl-pds">'</span></span>
+<p>and the code can be fount in this repo in the <a href="https://github.com/eliotstocker/Light-ControllerAPI/tree/master/example">Example Directory</a></p>
+
+<p>it provides an example API usage as well as an example provider that simply shows a toast for each command.</p>
+
+<h2>
+<a id="description" class="anchor" href="#description" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Description</h2>
+
+<p>Android Client Library for <a href="https://github.com/eliotstocker/Light-Controller">Light Controller Android App</a>
+allowing your application to control the lighting in a users home with ease and no need to write any socket connections etc.
+along with helper classes to write providers for Light Controller to allow it to control over Light brands etc.</p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Light Controller API is available on Bintray in the JCenter Repo <a href="https://bintray.com/eliotstocker/maven/LightControllerAPI/_latestVersion"> <img src="https://api.bintray.com/packages/eliotstocker/maven/LightControllerAPI/images/download.svg" alt="Download"> </a></p>
+
+<p>The API can be added into your Gradle dependencies with the following line</p>
+
+<div class="highlight highlight-source-groovy-gradle"><pre><span class="pl-en">dependencies</span> {
+    compile <span class="pl-s"><span class="pl-pds">'</span>Light-ControllerAPI:lightcontrollerapi:1.1.+<span class="pl-pds">'</span></span>
 }</pre></div>
+
+<h2>
+<a id="parts" class="anchor" href="#parts" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parts</h2>
+
+<ol>
+<li><a href="#control-api">Light Controller Control API</a></li>
+<li><a href="#provider-api">Light Controller Providers</a></li>
+</ol>
+
+<h1>
+<a id="control-api" class="anchor" href="#control-api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Control API</h1>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
 
 <p>API Usage is as follows:</p>
 
@@ -52,13 +83,13 @@ The API can be added into your Gradle dependencies with the following line</p>
 <li>Add Light Controller Permission to your manifest</li>
 </ul>
 
-<div class="highlight highlight-xml"><pre>&lt;<span class="pl-ent">uses-permission</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.api<span class="pl-pds">"</span></span>/&gt;</pre></div>
+<div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">uses-permission</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.api<span class="pl-pds">"</span></span>/&gt;</pre></div>
 
 <ul>
 <li>Initialize API</li>
 </ul>
 
-<div class="highlight highlight-java"><pre><span class="pl-smi">LightControllerAPI</span> api
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">LightControllerAPI</span> api
 <span class="pl-k">try</span> {
     api <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">LightControllerAPI</span>(<span class="pl-v">this</span>);
 } <span class="pl-k">catch</span>(<span class="pl-smi">LightControllerException</span> e) {
@@ -77,7 +108,7 @@ The API can be added into your Gradle dependencies with the following line</p>
 <li>Check if your application is allowed permission to control lights</li>
 </ul>
 
-<div class="highlight highlight-java"><pre><span class="pl-k">if</span>(api<span class="pl-k">.</span>hasPermission()) {
+<div class="highlight highlight-source-java"><pre><span class="pl-k">if</span>(api<span class="pl-k">.</span>hasPermission()) {
             <span class="pl-c">//application has permission</span>
 } <span class="pl-k">else</span> {
     <span class="pl-c">//app doesnt have permission, set event for if any permissions change on the api</span>
@@ -92,8 +123,9 @@ The API can be added into your Gradle dependencies with the following line</p>
     });
 }</pre></div>
 
-<p>It is not explicityly required that an app must request permission as sending a command (such as light on) will result in a permission request being sent, however it is best use that in any app with a main activity that permissions are requested and checked on create or resume so as to avoid user confusion.
-The Commandr usage for example does not explicitly request permission, thus on first use a permission requested be be sent.</p>
+<p>It is not explicityly required that an app must request permission as sending a command (such as light on) will result in a permission request being sent,
+however it is best use that in any app with a main activity that permissions are requested and checked on create or resume so as to avoid user confusion.
+The Command usage for example does not explicitly request permission, thus on first use a permission requested be be sent.</p>
 
 <ul>
 <li>Select Zone the user wishes to control
@@ -102,10 +134,10 @@ there are multiple ways to do this</li>
 
 <p>1: using the Zone List Picker</p>
 
-<div class="highlight highlight-java"><pre>api<span class="pl-k">.</span>pickZone();
+<div class="highlight highlight-source-java"><pre>api<span class="pl-k">.</span>pickZone();
 
 <span class="pl-c">//register Activity Result Listener withing your activity, required to get the return from the pick activity</span>
-@<span class="pl-smi">Override</span>
+<span class="pl-k">@Override</span>
 <span class="pl-k">protected</span> <span class="pl-k">void</span> onActivityResult(<span class="pl-k">int</span> requestCode, <span class="pl-k">int</span> resultCode, <span class="pl-smi">Intent</span> data) {
     <span class="pl-k">if</span>(requestCode <span class="pl-k">==</span> <span class="pl-smi">LightControllerAPI</span><span class="pl-k">.</span><span class="pl-smi">PickRequestCode</span>) {
         <span class="pl-k">if</span>(resultCode <span class="pl-k">==</span> <span class="pl-c1">RESULT_OK</span>) {
@@ -121,7 +153,7 @@ there are multiple ways to do this</li>
 
 <p>2: using LightZone List API</p>
 
-<div class="highlight highlight-java"><pre><span class="pl-k">LightZone</span>[] zoneList <span class="pl-k">=</span> api<span class="pl-k">.</span>listZones();
+<div class="highlight highlight-source-java"><pre><span class="pl-k">LightZone</span>[] zoneList <span class="pl-k">=</span> api<span class="pl-k">.</span>listZones();
 
 <span class="pl-k">for</span>(<span class="pl-k">int</span> i <span class="pl-k">=</span> <span class="pl-c1">0</span>; i <span class="pl-k">&lt;</span> zoneList<span class="pl-k">.</span>length; i<span class="pl-k">++</span>) {
     <span class="pl-smi">LightZone</span> zone <span class="pl-k">=</span> zoneList[i];
@@ -131,14 +163,23 @@ there are multiple ways to do this</li>
 }</pre></div>
 
 <ul>
-<li>Now you have the zones you can start to control the zones with like the following</li>
+<li>Now you have the zones you can start to control the zones like the following</li>
 </ul>
 
-<div class="highlight highlight-java"><pre><span class="pl-c">//zone1 is a LightZone returned from either Zone List</span>
+<div class="highlight highlight-source-java"><pre><span class="pl-c">//zone1 is a LightZone returned from either Zone List</span>
 api<span class="pl-k">.</span>lightsOn(zone1);</pre></div>
 
+<p>if you wish your application to show up in the navigation menu in the Light Controller
+application you must register an activity with the category 'tv.piratemedia.lightcontroller.plugin'</p>
+
+<p>it is also recommended that you allow the user to remove the launcher icon when accessing your plugin
+from light controller, however this is only the best case if the application works mainly as a plugin
+for Light Controller rather than a stand alone app.</p>
+
+<p>you can see a simple method for achieving this in the example application.</p>
+
 <h2>
-<a id="api-documentation" class="anchor" href="#api-documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>API Documentation</h2>
+<a id="api-documentation" class="anchor" href="#api-documentation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>API Documentation</h2>
 
 <p>Methods:</p>
 
@@ -152,9 +193,9 @@ api<span class="pl-k">.</span>lightsOn(zone1);</pre></div>
 </thead>
 <tbody>
 <tr>
-<td align="left">Void</td>
+<td align="left"></td>
 <td align="left">LightControllerAPI(Context context)</td>
-<td align="left">Class constructor you must pass it your</td>
+<td align="left">Class constructor you must pass it your applications context for it to call the intents from, Throws a LightControllerException if The application is not installed or The Application version is to old to support this version of the API Client</td>
 </tr>
 <tr>
 <td align="left">Void</td>
@@ -314,12 +355,243 @@ Some Functions will throw a LightControllerException which you can catch and ins
 </ul>
 
 <h2>
-<a id="example" class="anchor" href="#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example</h2>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h2>
 
 <p>a simple example of the API can be found here: <a href="https://github.com/eliotstocker/Light-ControllerAPI/tree/master/example">API Example</a></p>
 
+<h1>
+<a id="provider-api" class="anchor" href="#provider-api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Provider API</h1>
+
+<p>The Provider API is currently in preview, and as such only works with Beta Releases of Light Controller, it should be considered a Beta and subject to some small changes or additions</p>
+
 <h2>
-<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+<a id="usage-1" class="anchor" href="#usage-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Inover to create a provider you must create a class extending ControlProviderReciever you will see that a number of functions are needed and they are quite self explainitory, further info on the functions required are listed bellow.</p>
+
+<p>you must also register the reciever and setup intent filter as follow:</p>
+
+<div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">receiver</span>
+    <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>{class that extends ControlProviderReciever}<span class="pl-pds">"</span></span>
+    <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">label</span>=<span class="pl-s"><span class="pl-pds">"</span>{Title that shows up fro users when in select dialog}<span class="pl-pds">"</span></span>
+    <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">exported</span>=<span class="pl-s"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span>
+    <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">enabled</span>=<span class="pl-s"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span>&gt;
+&lt;<span class="pl-ent">intent-filter</span>&gt;
+    &lt;<span class="pl-ent">category</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider<span class="pl-pds">"</span></span>/&gt;
+    &lt;<span class="pl-ent">action</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider.Select<span class="pl-pds">"</span></span>/&gt;
+&lt;/<span class="pl-ent">intent-filter</span>&gt;
+&lt;<span class="pl-ent">intent-filter</span>&gt;
+    &lt;<span class="pl-ent">category</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider<span class="pl-pds">"</span></span>/&gt;
+    &lt;<span class="pl-ent">action</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider.LightOn<span class="pl-pds">"</span></span>/&gt;
+&lt;/<span class="pl-ent">intent-filter</span>&gt;
+&lt;<span class="pl-ent">intent-filter</span>&gt;
+    &lt;<span class="pl-ent">category</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider<span class="pl-pds">"</span></span>/&gt;
+    &lt;<span class="pl-ent">action</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider.LightOff<span class="pl-pds">"</span></span>/&gt;
+&lt;/<span class="pl-ent">intent-filter</span>&gt;
+&lt;<span class="pl-ent">intent-filter</span>&gt;
+    &lt;<span class="pl-ent">category</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider<span class="pl-pds">"</span></span>/&gt;
+    &lt;<span class="pl-ent">action</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider.GlobalOn<span class="pl-pds">"</span></span>/&gt;
+&lt;/<span class="pl-ent">intent-filter</span>&gt;
+&lt;<span class="pl-ent">intent-filter</span>&gt;
+    &lt;<span class="pl-ent">category</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider<span class="pl-pds">"</span></span>/&gt;
+    &lt;<span class="pl-ent">action</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider.GlobalOff<span class="pl-pds">"</span></span>/&gt;
+&lt;/<span class="pl-ent">intent-filter</span>&gt;
+&lt;<span class="pl-ent">intent-filter</span>&gt;
+    &lt;<span class="pl-ent">category</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider<span class="pl-pds">"</span></span>/&gt;
+    &lt;<span class="pl-ent">action</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider.Brightness<span class="pl-pds">"</span></span>/&gt;
+&lt;/<span class="pl-ent">intent-filter</span>&gt;
+&lt;<span class="pl-ent">intent-filter</span>&gt;
+    &lt;<span class="pl-ent">category</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider<span class="pl-pds">"</span></span>/&gt;
+    &lt;<span class="pl-ent">action</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider.IncreaseBrightness<span class="pl-pds">"</span></span>/&gt;
+&lt;/<span class="pl-ent">intent-filter</span>&gt;
+&lt;<span class="pl-ent">intent-filter</span>&gt;
+    &lt;<span class="pl-ent">category</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider<span class="pl-pds">"</span></span>/&gt;
+    &lt;<span class="pl-ent">action</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider.DecreaseBrightness<span class="pl-pds">"</span></span>/&gt;
+&lt;/<span class="pl-ent">intent-filter</span>&gt;
+&lt;<span class="pl-ent">intent-filter</span>&gt;
+    &lt;<span class="pl-ent">category</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider<span class="pl-pds">"</span></span>/&gt;
+    &lt;<span class="pl-ent">action</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider.LightColor<span class="pl-pds">"</span></span>/&gt;
+&lt;/<span class="pl-ent">intent-filter</span>&gt;
+&lt;<span class="pl-ent">intent-filter</span>&gt;
+    &lt;<span class="pl-ent">category</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider<span class="pl-pds">"</span></span>/&gt;
+    &lt;<span class="pl-ent">action</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider.Temperature<span class="pl-pds">"</span></span>/&gt;
+&lt;/<span class="pl-ent">intent-filter</span>&gt;
+&lt;<span class="pl-ent">intent-filter</span>&gt;
+    &lt;<span class="pl-ent">category</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider<span class="pl-pds">"</span></span>/&gt;
+    &lt;<span class="pl-ent">action</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider.IncreaseTemperature<span class="pl-pds">"</span></span>/&gt;
+&lt;/<span class="pl-ent">intent-filter</span>&gt;
+&lt;<span class="pl-ent">intent-filter</span>&gt;
+    &lt;<span class="pl-ent">category</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider<span class="pl-pds">"</span></span>/&gt;
+    &lt;<span class="pl-ent">action</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider.DecreaseTemperature<span class="pl-pds">"</span></span>/&gt;
+&lt;/<span class="pl-ent">intent-filter</span>&gt;
+&lt;<span class="pl-ent">intent-filter</span>&gt;
+    &lt;<span class="pl-ent">category</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider<span class="pl-pds">"</span></span>/&gt;
+    &lt;<span class="pl-ent">action</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider.LightNight<span class="pl-pds">"</span></span>/&gt;
+&lt;/<span class="pl-ent">intent-filter</span>&gt;
+&lt;<span class="pl-ent">intent-filter</span>&gt;
+    &lt;<span class="pl-ent">category</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider<span class="pl-pds">"</span></span>/&gt;
+    &lt;<span class="pl-ent">action</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider.LightFull<span class="pl-pds">"</span></span>/&gt;
+&lt;/<span class="pl-ent">intent-filter</span>&gt;
+&lt;<span class="pl-ent">intent-filter</span>&gt;
+    &lt;<span class="pl-ent">category</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider<span class="pl-pds">"</span></span>/&gt;
+    &lt;<span class="pl-ent">action</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider.LightWhite<span class="pl-pds">"</span></span>/&gt;
+&lt;/<span class="pl-ent">intent-filter</span>&gt;
+&lt;<span class="pl-ent">meta-data</span>
+        <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>tv.piratemedia.lightcontroler.provider<span class="pl-pds">"</span></span>
+        <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">resource</span>=<span class="pl-s"><span class="pl-pds">"</span>@xml/provider_info<span class="pl-pds">"</span></span> /&gt;
+&lt;/<span class="pl-ent">receiver</span>&gt;</pre></div>
+
+<p>at the end of the reciever example adove you can see that thre is a metadata field called "tv.piratemedia.lightcontroler.provider" this provides Light Controller with some information about how your reciever works</p>
+
+<p>an example of metadata XML:</p>
+
+<div class="highlight highlight-text-xml"><pre>&lt;?<span class="pl-ent">xml</span><span class="pl-e"> version</span>=<span class="pl-s"><span class="pl-pds">"</span>1.0<span class="pl-pds">"</span></span><span class="pl-e"> encoding</span>=<span class="pl-s"><span class="pl-pds">"</span>utf-8<span class="pl-pds">"</span></span>?&gt;
+&lt;<span class="pl-ent">control-provider</span> <span class="pl-e">xmlns</span><span class="pl-e">:</span><span class="pl-e">android</span>=<span class="pl-s"><span class="pl-pds">"</span>http://schemas.android.com/apk/res/android<span class="pl-pds">"</span></span>
+                  <span class="pl-e">xmlns</span><span class="pl-e">:</span><span class="pl-e">app</span>=<span class="pl-s"><span class="pl-pds">"</span>http://schemas.android.com/apk/res-auto<span class="pl-pds">"</span></span>
+                  <span class="pl-e">app</span><span class="pl-e">:</span><span class="pl-e">ColorBrightnessStatefull</span>=<span class="pl-s"><span class="pl-pds">"</span>false<span class="pl-pds">"</span></span>
+                  <span class="pl-e">app</span><span class="pl-e">:</span><span class="pl-e">WhiteBrightnessStatefull</span>=<span class="pl-s"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span>
+                  <span class="pl-e">app</span><span class="pl-e">:</span><span class="pl-e">ColorHasTemperature</span>=<span class="pl-s"><span class="pl-pds">"</span>false<span class="pl-pds">"</span></span>
+                  <span class="pl-e">app</span><span class="pl-e">:</span><span class="pl-e">ColorTemperatureStatefull</span>=<span class="pl-s"><span class="pl-pds">"</span>false<span class="pl-pds">"</span></span>
+                  <span class="pl-e">app</span><span class="pl-e">:</span><span class="pl-e">WhiteTemperatureStatefull</span>=<span class="pl-s"><span class="pl-pds">"</span>false<span class="pl-pds">"</span></span>&gt;
+&lt;/<span class="pl-ent">control-provider</span>&gt;</pre></div>
+
+<p>this must be present for LightController to be able to load your provider</p>
+
+<h2>
+<a id="security" class="anchor" href="#security" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Security</h2>
+
+<p>ControlProviderReciever has a security mechanism where by it will check the calling applications package name and signature to make sure that not just any application can use your provider.</p>
+
+<p>if you wish to enable other applications to use you package you can add their signature and package name in your Providers construction class like so:</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">private</span> <span class="pl-k">static</span> appPermission[] ap <span class="pl-k">=</span> {<span class="pl-k">new</span> appPermission(<span class="pl-s"><span class="pl-pds">"</span>com.example.package<span class="pl-pds">"</span></span>, <span class="pl-c1">123456789</span>)};
+<span class="pl-k">public</span> ExampleProvider() {
+    <span class="pl-v">super</span>(ap);
+}</pre></div>
+
+<p>where 'com.example.package' is the package name and 123456789 is the hashCode of the applications signature, thjis application must of course implement calling the provider in a similar way to Light Controller</p>
+
+<h2>
+<a id="selection" class="anchor" href="#selection" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Selection</h2>
+
+<p>most of the provider base functions are simply for the use of controlling the lights, however onSelected is a utility function that is called when a user selects your provider,
+this can be left empty safely if no setup is required, however if you wish to display an activity to present the user with some options or information you can do so like so:</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">@Override</span>
+<span class="pl-k">public</span> <span class="pl-k">void</span> onSelected(<span class="pl-smi">Context</span> context) {
+    <span class="pl-smi">Intent</span> i <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Intent</span>(context, <span class="pl-smi">ProviderSelected</span><span class="pl-k">.</span>class);
+    i<span class="pl-k">.</span>addFlags(<span class="pl-smi">Intent</span><span class="pl-c1"><span class="pl-k">.</span>FLAG_ACTIVITY_NEW_TASK</span>);
+    context<span class="pl-k">.</span>startActivity(i);
+}</pre></div>
+
+<h2>
+<a id="provider-documentation" class="anchor" href="#provider-documentation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Provider Documentation</h2>
+
+<p>Methods to override in ControlProviderReciver:</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">Return Type</th>
+<th align="left">Method Name</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Void</td>
+<td align="left">onSelected(Context context)</td>
+<td align="left">(Optional) On Selected callback, not required, allows you to run some code when the user selects your provider</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">onLightsOn(int Type, int Zone, Context context)</td>
+<td align="left">When the user toggles a light on for a zone in the interface, run your code here to turn off the light</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">onLightsOff(int Type, int Zone, Context context)</td>
+<td align="left">When the user toggles a light off for a zone in the interface, run your code here to turn off the light</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">onGlobalOn(Context context)</td>
+<td align="left">Turn on all Lights for All zones of all Types</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">onGlobalOff(Context context)</td>
+<td align="left">Turn off all Lights for All zones of all Types</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">onSetBrightness(int Type, int Zone, float Brightness, Context context)</td>
+<td align="left">Set a Zones brightness when either 'ColorBrightnessStatefull' or 'WhiteBrightnessStatefull' are set to true the float value is between 0 and 1 where 1 is full brightness and 0 is the lowest</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">onIncreaseBrightness(int Type, int Zone, Context context)</td>
+<td align="left">Increase a Zones brightness by one step when either 'ColorBrightnessStatefull' or 'WhiteBrightnessStatefull' are set to false</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">onDecreaseBrightness(int Type, int Zone, Context context)</td>
+<td align="left">Decrease a Zones brightness by one step when either 'ColorBrightnessStatefull' or 'WhiteBrightnessStatefull' are set to false</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">onSetColor(int Zone, int color, Context context)</td>
+<td align="left">callback to set a zones color, the integer passed in is a standard color code, no type is sent for this as it is expected to be a Color Zone</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">onSetTemperature(int Type, int Zone, float Temp, Context context)</td>
+<td align="left">Set a Zones temperature when either 'ColorTemperatureStatefull' or 'WhiteTemperatureStatefull' are set to true the float value is between -1 and 1 where 1 is warmest and -1 is the coolest</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">onIncreaseTemperature(int Type, int Zone, Context context)</td>
+<td align="left">Increase a Zones color temperature by one step when either 'ColorTemperatureStatefull' or 'WhiteTemperatureStatefull' are set to false</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">onDecreaseTemperature(int Type, int Zone, Context context)</td>
+<td align="left">Decrease a Zones color temperature by one step when either 'ColorTemperatureStatefull' or 'WhiteTemperatureStatefull' are set to false</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">onSetNight(int Type, int Zone, Context context)</td>
+<td align="left">Set Zone specified to night mode</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">onSetFull(int Type, int Zone, Context context)</td>
+<td align="left">Set Zone specified to full brightness</td>
+</tr>
+<tr>
+<td align="left">Void</td>
+<td align="left">onSetWhite(int Zone, Context context)</td>
+<td align="left">Set a (Color) Zone back to white</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="zones-and-types" class="anchor" href="#zones-and-types" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Zones and Types</h2>
+
+<p>all types are sent with one of the following static values ControlProviderReceiver.ZONE_TYPE_COLOR, ControlProviderReceiver.ZONE_TYPE_WHITE or ControlProviderReceiver.ZONE_TYPE_UNKNOWN in the unlikely even the zone is not known</p>
+
+<p>all zones will be integers from 0 to 4, with 0 being global (all zones of that type) and 1 to 4 being zones 1 to 4 respectively.</p>
+
+<p>the global commands (on/off) should turn off oll lights of all types</p>
+
+<h2>
+<a id="example-1" class="anchor" href="#example-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h2>
+
+<p>a simple example provider of the API can be found here: <a href="https://github.com/eliotstocker/Light-ControllerAPI/tree/master/example/scr/main/java/tv/piratemedia/lightcontrollerexample/ExampleProvider">Example Provider</a></p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h2>
 
 <p>Light Controller API is free for use or modify as to allow any application to interface with Light Controller using the Apache 2.0 License</p>
         </section>
