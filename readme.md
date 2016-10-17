@@ -22,6 +22,7 @@ along with helper classes to write providers for Light Controller to allow it to
 Installation
 ------------
 Light Controller API is available on Bintray in the JCenter Repo [ ![Download](https://api.bintray.com/packages/eliotstocker/maven/LightControllerAPI/images/download.svg) ](https://bintray.com/eliotstocker/maven/LightControllerAPI/_latestVersion)
+
 The API can be added into your Gradle dependencies with the following line
 ```gradle
 dependencies {
