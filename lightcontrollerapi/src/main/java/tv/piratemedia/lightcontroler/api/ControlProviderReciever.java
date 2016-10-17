@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -57,8 +58,10 @@ public abstract class ControlProviderReciever extends BroadcastReceiver {
 
         boolean callerVerified = false;
         for(appPermission app : allowedApps) {
-            if(app.verifyPermission(appVer, signature, context)) {
-                callerVerified = true;
+            if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && app.Package.equals(appVer.getCreatorPackage())) || app.Package.equals(appVer.getTargetPackage())) {
+                if (app.verifyPermission(appVer, signature, context)) {
+                    callerVerified = true;
+                }
             }
         }
 
@@ -144,7 +147,9 @@ public abstract class ControlProviderReciever extends BroadcastReceiver {
         return intent.getStringExtra("type").equals("color") ? ZONE_TYPE_COLOR : (intent.getStringExtra("type").equals("white") ? ZONE_TYPE_WHITE : ZONE_TYPE_UNKNOWN);
     }
 
-    public abstract void onSelected(Context context);
+    public void onSelected(Context context) {
+        //nothing to do by default
+    };
 
     public abstract void onLightsOn(int Type, int Zone, Context context);
 

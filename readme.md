@@ -5,6 +5,14 @@ Build Status
 ------------
 [![Build Status](https://travis-ci.org/eliotstocker/Light-ControllerAPI.svg?branch=master)](https://travis-ci.org/eliotstocker/Light-ControllerAPI)
 
+Demo application
+----------------
+the demo application can be downloaded from google play here: [LC API Example](https://play.google.com/store/apps/details?id=tv.piratemedia.lightcontrollerapitest&hl=en_GB)
+
+and the code can be fount in this repo in the [Example Directory](https://github.com/eliotstocker/Light-ControllerAPI/tree/master/example)
+
+it provides an example API usage as well as an example provider that simply shows a toast for each command.
+
 Description
 -----------
 Android Client Library for [Light Controller Android App](https://github.com/eliotstocker/Light-Controller)
@@ -13,7 +21,7 @@ along with helper classes to write providers for Light Controller to allow it to
 
 Installation
 ------------
-Light Controller API is available on [BinTray](https://bintray.com/eliotstocker/maven/LightControllerAPI) in the JCenter Repo
+Light Controller API is available on Bintray in the JCenter Repo [ ![Download](https://api.bintray.com/packages/eliotstocker/maven/LightControllerAPI/images/download.svg) ](https://bintray.com/eliotstocker/maven/LightControllerAPI/_latestVersion)
 The API can be added into your Gradle dependencies with the following line
 ```gradle
 dependencies {
@@ -73,8 +81,9 @@ if(api.hasPermission()) {
     });
 }
 ```
-It is not explicityly required that an app must request permission as sending a command (such as light on) will result in a permission request being sent, however it is best use that in any app with a main activity that permissions are requested and checked on create or resume so as to avoid user confusion.
-The Commandr usage for example does not explicitly request permission, thus on first use a permission requested be be sent.
+It is not explicityly required that an app must request permission as sending a command (such as light on) will result in a permission request being sent,
+however it is best use that in any app with a main activity that permissions are requested and checked on create or resume so as to avoid user confusion.
+The Command usage for example does not explicitly request permission, thus on first use a permission requested be be sent.
 
 * Select Zone the user wishes to control
 there are multiple ways to do this
@@ -111,11 +120,20 @@ for(int i = 0; i < zoneList.length; i++) {
 }
 ```
 
-* Now you have the zones you can start to control the zones with like the following
+* Now you have the zones you can start to control the zones like the following
 ```java
 //zone1 is a LightZone returned from either Zone List
 api.lightsOn(zone1);
 ```
+
+if you wish your application to show up in the navigation menu in the Light Controller
+application you must register an activity with the category 'tv.piratemedia.lightcontroller.plugin'
+
+it is also recommended that you allow the user to remove the launcher icon when accessing your plugin
+from light controller, however this is only the best case if the application works mainly as a plugin
+for Light Controller rather than a stand alone app.
+
+you can see a simple method for achieving this in the example application.
 
 API Documentation
 -----------------
@@ -123,7 +141,7 @@ Methods:
 
 | Return Type    | Invocation                                       | Description    |
 | :------------- | :----------------------------------------------- | :------------- |
-| Void           | LightControllerAPI(Context context)              | Class constructor you must pass it your | applications context for it to call the intents from, Throws a LightControllerException if The application is not installed or The Application version is to old to support this version of the API Client |
+|                | LightControllerAPI(Context context)              | Class constructor you must pass it your applications context for it to call the intents from, Throws a LightControllerException if The application is not installed or The Application version is to old to support this version of the API Client |
 | Void           | getApplicationFromPlayStore(Context context)     | (Static) Will bring the user to the play store where they can or update download light controller if needed. |
 | Boolean        | isLightControllerInstalled()                     | Return (Boolean) weather Light Controller Application is installed, should not need to be used as is called from the class constructor. |
 | LightZone[]    | listZones()                                      | Returns an array of all available Light Zones as LightZone Objects|
@@ -169,6 +187,7 @@ Example
 a simple example of the API can be found here: [API Example](https://github.com/eliotstocker/Light-ControllerAPI/tree/master/example)
 
 #Provider API
+The Provider API is currently in preview, and as such only works with Beta Releases of Light Controller, it should be considered a Beta and subject to some small changes or additions
 
 Usage
 -----
@@ -261,10 +280,69 @@ an example of metadata XML:
                   app:WhiteTemperatureStatefull="false">
 </control-provider>
 ```
-
 this must be present for LightController to be able to load your provider
 
-#MORE INFO COMING SOON
+Security
+---------
+ControlProviderReciever has a security mechanism where by it will check the calling applications package name and signature to make sure that not just any application can use your provider.
+
+if you wish to enable other applications to use you package you can add their signature and package name in your Providers construction class like so:
+```java
+private static appPermission[] ap = {new appPermission("com.example.package", 123456789)};
+public ExampleProvider() {
+    super(ap);
+}
+```
+where 'com.example.package' is the package name and 123456789 is the hashCode of the applications signature, thjis application must of course implement calling the provider in a similar way to Light Controller
+
+Selection
+----------
+most of the provider base functions are simply for the use of controlling the lights, however onSelected is a utility function that is called when a user selects your provider,
+this can be left empty safely if no setup is required, however if you wish to display an activity to present the user with some options or information you can do so like so:
+
+```java
+@Override
+public void onSelected(Context context) {
+    Intent i = new Intent(context, ProviderSelected.class);
+    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    context.startActivity(i);
+}
+```
+
+Provider Documentation
+----------------------
+
+Methods to override in ControlProviderReciver:
+
+| Return Type    | Method Name                                                            | Description    |
+| :------------- | :--------------------------------------------------------------------- | :------------- |
+| Void           | onSelected(Context context)                                            | (Optional) On Selected callback, not required, allows you to run some code when the user selects your provider |
+| Void           | onLightsOn(int Type, int Zone, Context context)                        | When the user toggles a light on for a zone in the interface, run your code here to turn off the light |
+| Void           | onLightsOff(int Type, int Zone, Context context)                       | When the user toggles a light off for a zone in the interface, run your code here to turn off the light |
+| Void           | onGlobalOn(Context context)                                            | Turn on all Lights for All zones of all Types |
+| Void           | onGlobalOff(Context context)                                           | Turn off all Lights for All zones of all Types |
+| Void           | onSetBrightness(int Type, int Zone, float Brightness, Context context) | Set a Zones brightness when either 'ColorBrightnessStatefull' or 'WhiteBrightnessStatefull' are set to true the float value is between 0 and 1 where 1 is full brightness and 0 is the lowest |
+| Void           | onIncreaseBrightness(int Type, int Zone, Context context)              | Increase a Zones brightness by one step when either 'ColorBrightnessStatefull' or 'WhiteBrightnessStatefull' are set to false |
+| Void           | onDecreaseBrightness(int Type, int Zone, Context context)              | Decrease a Zones brightness by one step when either 'ColorBrightnessStatefull' or 'WhiteBrightnessStatefull' are set to false |
+| Void           | onSetColor(int Zone, int color, Context context)                       | callback to set a zones color, the integer passed in is a standard color code, no type is sent for this as it is expected to be a Color Zone |
+| Void           | onSetTemperature(int Type, int Zone, float Temp, Context context)      | Set a Zones temperature when either 'ColorTemperatureStatefull' or 'WhiteTemperatureStatefull' are set to true the float value is between -1 and 1 where 1 is warmest and -1 is the coolest |
+| Void           | onIncreaseTemperature(int Type, int Zone, Context context)             | Increase a Zones color temperature by one step when either 'ColorTemperatureStatefull' or 'WhiteTemperatureStatefull' are set to false |
+| Void           | onDecreaseTemperature(int Type, int Zone, Context context)             | Decrease a Zones color temperature by one step when either 'ColorTemperatureStatefull' or 'WhiteTemperatureStatefull' are set to false |
+| Void           | onSetNight(int Type, int Zone, Context context)                        | Set Zone specified to night mode |
+| Void           | onSetFull(int Type, int Zone, Context context)                         | Set Zone specified to full brightness |
+| Void           | onSetWhite(int Zone, Context context)                                  | Set a (Color) Zone back to white |
+
+Zones and Types
+---------------
+all types are sent with one of the following static values ControlProviderReceiver.ZONE_TYPE_COLOR, ControlProviderReceiver.ZONE_TYPE_WHITE or ControlProviderReceiver.ZONE_TYPE_UNKNOWN in the unlikely even the zone is not known
+
+all zones will be integers from 0 to 4, with 0 being global (all zones of that type) and 1 to 4 being zones 1 to 4 respectively.
+
+the global commands (on/off) should turn off oll lights of all types
+
+Example
+-------
+a simple example provider of the API can be found here: [Example Provider](https://github.com/eliotstocker/Light-ControllerAPI/tree/master/example/scr/main/java/tv/piratemedia/lightcontrollerexample/ExampleProvider)
 
 License
 -------
