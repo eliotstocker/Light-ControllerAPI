@@ -17,7 +17,7 @@ Description
 -----------
 Android Client Library for [Light Controller Android App](https://github.com/eliotstocker/Light-Controller)
 allowing your application to control the lighting in a users home with ease and no need to write any socket connections etc.
-along with helper classes to write providers for Light Controller to allow it to control over Light brands etc.
+along with helper classes to write providers for Light Controller to allow it to control other Light brands etc.
 
 Installation
 ------------
@@ -294,7 +294,7 @@ public ExampleProvider() {
     super(ap);
 }
 ```
-where 'com.example.package' is the package name and 123456789 is the hashCode of the applications signature, thjis application must of course implement calling the provider in a similar way to Light Controller
+where 'com.example.package' is the package name and 123456789 is the hashCode of the applications signature, this application must of course implement calling the provider in a similar way to Light Controller
 
 Selection
 ----------
@@ -343,7 +343,7 @@ the global commands (on/off) should turn off oll lights of all types
 
 Example
 -------
-a simple example provider of the API can be found here: [Example Provider](https://github.com/eliotstocker/Light-ControllerAPI/tree/master/example/scr/main/java/tv/piratemedia/lightcontrollerexample/ExampleProvider)
+a simple example provider of the API can be found here: [Example Provider](https://github.com/eliotstocker/Light-ControllerAPI/blob/master/example/src/main/java/tv/piratemedia/lightcontrollerapiexample/ExampleProvider.java)
 
 License
 -------
