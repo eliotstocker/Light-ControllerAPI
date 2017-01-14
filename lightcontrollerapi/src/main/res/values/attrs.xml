@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="lightcontroller__ColorBrightnessStatefull" format="boolean"/>
+    <attr name="lightcontroller__WhiteBrightnessStatefull" format="boolean"/>
+    <attr name="lightcontroller__ColorHasTemperature" format="boolean"/>
+    <attr name="lightcontroller__ColorTemperatureStatefull" format="boolean"/>
+    <attr name="lightcontroller__WhiteTemperatureStatefull" format="boolean"/>
+
+</resources>

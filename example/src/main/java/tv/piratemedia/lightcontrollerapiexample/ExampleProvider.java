@@ -18,6 +18,11 @@ public class ExampleProvider extends ControlProviderReciever {
     }
 
     @Override
+    public void onDiscovery(Context context) {
+        Toast.makeText(context, "Attempt Discovery", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void onSelected(Context context) {
         //Toast.makeText(context, "Selected Example Provider, Yey!", Toast.LENGTH_SHORT).show();
         Intent i = new Intent(context, ProviderSelected.class);
