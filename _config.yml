@@ -1,0 +1,8 @@
+title: Light Controller API
+description: Android Client Library For Light Controller API (Android App)
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-architect
+
+gems:
+  - jekyll-mentions
