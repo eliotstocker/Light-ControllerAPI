@@ -6,5 +6,8 @@
     <attr name="lightcontroller__ColorHasTemperature" format="boolean"/>
     <attr name="lightcontroller__ColorTemperatureStatefull" format="boolean"/>
     <attr name="lightcontroller__WhiteTemperatureStatefull" format="boolean"/>
+    <attr name="lightcontroller__CanDisableDiscovery" format="boolean"/>
+    <attr name="lightcontroller__CanSetHubIP" format="boolean"/>
+    <attr name="lightcontroller__CanSetHubPort" format="boolean"/>
 
 </resources>

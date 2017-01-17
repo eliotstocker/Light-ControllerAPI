@@ -31,6 +31,8 @@ public abstract class ControlProviderReciever extends BroadcastReceiver {
     public static final String LIGHT_FULL_INTENT = "tv.piratemedia.lightcontroler.provider.LightFull";
     public static final String LIGHT_WHITE_INTENT = "tv.piratemedia.lightcontroler.provider.LightWhite";
     public static final String LIGHT_DISCOVER = "tv.piratemedia.lightcontroler.provider.discover";
+    public static final String LIGHT_SYNC = "tv.piratemedia.lightcontroler.provider.LightSync";
+    public static final String LIGHT_UNSYNC = "tv.piratemedia.lightcontroler.provider.LightUnsync";
 
     private appPermission defPerm = new appPermission("com.piratemedia.lightcontroler", 1321982240);
 
@@ -130,6 +132,13 @@ public abstract class ControlProviderReciever extends BroadcastReceiver {
                     break;
                 case LIGHT_DISCOVER:
                     onDiscovery(context);
+                    break;
+                case LIGHT_SYNC:
+                    onSync(checkZone(intent), context);
+                    break;
+                case LIGHT_UNSYNC:
+                    onUnsync(checkZone(intent), context);
+                    break;
             }
         } catch(NullPointerException e) {
             Log.e("LCAPI-ControlProviderR", e.getMessage());
@@ -183,4 +192,8 @@ public abstract class ControlProviderReciever extends BroadcastReceiver {
     public abstract void onSetFull(int Type, int Zone, Context context);
 
     public abstract void onSetWhite(int Zone, Context context);
+
+    public abstract void onSync(int Zone, Context context);
+
+    public abstract void onUnsync(int Zone, Context context);
 }
